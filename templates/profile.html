@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Mon profil{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 40px;">
+  <div class="profile-wrap">
+    <div class="profile-card">
+      <div class="profile-cover"></div>
+      <img class="avatar" src="{{ user.avatar_url() }}" alt="Avatar" />
+      
+      <div class="info">
+        <h2>{{ user.full_name or user.email.split('@')[0] }}</h2>
+        
+        <div class="chips">
+          <span class="chip role {{ user.role }}">
+            {% if user.role == 'org' %}
+              🌍 Organisations internationales
+            {% elif user.role == 'fed' %}
+              🏴 Fédérations nationales
+            {% elif user.role == 'staff' %}
+              ⚡ Staff technique
+            {% endif %}
+          </span>
+          {% if user.country %}
+            <span class="chip">📍 {{ user.country }}</span>
+          {% endif %}
+          {% if user.favorite_team %}
+            <span class="chip">🏆 {{ user.favorite_team }}</span>
+          {% endif %}
+        </div>
+
+        <p class="bio">
+          {{ user.bio or "Ajoutez une bio pour vous présenter à la communauté." }}
+        </p>
+
+        <div class="actions">
+          <a class="btn" href="{{ url_for('profile_edit') }}">✏️ Modifier le profil</a>
+          <a class="btn-ghost" href="{{ url_for('dashboard_' + user.role) }}">📊 Voir le dashboard</a>
+          <a class="btn-ghost" href="{{ url_for('predictions') }}">🔮 Prédictions</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px;">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Informations du compte</h3>
+        </div>
+        
+        <div style="display: grid; gap: 16px;">
+          <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
+            <span class="muted">Email</span>
+            <span style="font-weight: 600;">{{ user.email }}</span>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
+            <span class="muted">Type de compte</span>
+            <span style="font-weight: 600;">
+              {% if user.role == 'org' %}
+                Organisations internationales
+              {% elif user.role == 'fed' %}
+                Fédérations nationales
+              {% elif user.role == 'staff' %}
+                Staff technique
+              {% endif %}
+            </span>
+          </div>
+          
+          {% if user.country %}
+          <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
+            <span class="muted">Pays</span>
+            <span style="font-weight: 600;">{{ user.country }}</span>
+          </div>
+          {% endif %}
+          
+          {% if user.favorite_team %}
+          <div style="display: flex; justify-content: space-between; padding: 12px 0;">
+            <span class="muted">Équipe favorite</span>
+            <span style="font-weight: 600;">{{ user.favorite_team }}</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

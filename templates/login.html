@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<div class="container-narrow" style="padding-top: 60px;">
+  <div class="card" style="max-width: 480px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 32px;">
+      <div class="logo" style="margin: 0 auto 16px; width: 64px; height: 64px; font-size: 32px;">⚽</div>
+      <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 8px;">Bienvenue</h2>
+      <p class="muted">Accédez à votre espace d'analyse World Cup</p>
+    </div>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+      <div class="row">
+        <label>Adresse e-mail</label>
+        <input type="email" name="email" value="{{ email or '' }}" placeholder="votre@email.com" required autofocus />
+      </div>
+
+      <div class="row">
+        <label>Mot de passe</label>
+        <input type="password" name="password" placeholder="••••••••" required />
+      </div>
+
+      <button type="submit" class="btn" style="width: 100%; margin-top: 8px;">
+        Se connecter
+      </button>
+    </form>
+
+    <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center;">
+      <p class="muted" style="font-size: 14px;">
+        Vous n'avez pas de compte ? 
+        <a href="{{ url_for('signup') }}" style="font-weight: 600; text-decoration: none;">Créer un compte</a>
+      </p>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 40px; color: var(--text-secondary); font-size: 14px;">
+    <p>🏆 Analyse professionnelle · 📊 Données en temps réel · 🔮 Prédictions IA</p>
+  </div>
+</div>
+{% endblock %}

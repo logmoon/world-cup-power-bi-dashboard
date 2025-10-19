@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – Fédérations nationales{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <span class="ribbon fed">🏴 Fédérations nationales</span>
+    <h1 class="page-title">Analyse des Fédérations</h1>
+    <p class="page-subtitle">
+      Performances par fédération, comparaisons régionales et métriques stratégiques pour optimiser la performance nationale.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Rapport des fédérations</h2>
+      <p class="card-description">Analyses détaillées par équipe nationale</p>
+    </div>
+    <div id="reportContainer">
+      <iframe 
+        title="Federation" 
+        width="100%" 
+        height="700" 
+        src="https://app.powerbi.com/reportEmbed?reportId=2a95840e-19f5-471d-8cc6-32139380533a&autoAuth=true&embeddedDemo=true" 
+        frameborder="0" 
+        allowFullScreen="true">
+      </iframe>
+    </div>
+  </div>
+</div>
+{% endblock %}

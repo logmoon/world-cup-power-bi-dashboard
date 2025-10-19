@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Modifier le profil{% endblock %}
+
+{% block content %}
+<div class="container-narrow" style="padding-top: 40px; padding-bottom: 60px;">
+  <div style="margin-bottom: 32px;">
+    <a href="{{ url_for('profile_view') }}" class="btn-ghost" style="display: inline-flex; align-items: center; gap: 8px;">
+      ← Retour au profil
+    </a>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Modifier mon profil</h2>
+      <p class="card-description">Mettez à jour vos informations personnelles</p>
+    </div>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <label>Nom complet</label>
+        <input type="text" name="full_name" value="{{ user.full_name or '' }}" placeholder="Jean Dupont" />
+      </div>
+
+      <div class="form-grid">
+        <div class="row">
+          <label>Pays</label>
+          <input type="text" name="country" value="{{ user.country or '' }}" placeholder="France" />
+        </div>
+
+        <div class="row">
+          <label>Équipe favorite</label>
+          <input type="text" name="favorite_team" value="{{ user.favorite_team or '' }}" placeholder="France" />
+        </div>
+      </div>
+
+      <div class="row">
+        <label>Bio</label>
+        <textarea name="bio" rows="4" placeholder="Parlez-nous de vous...">{{ user.bio or '' }}</textarea>
+      </div>
+
+      <div class="row">
+        <label>Photo de profil</label>
+        
+        {% if user.avatar_filename %}
+        <div style="margin-bottom: 12px;">
+          <img src="{{ user.avatar_url() }}" alt="Current avatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border);">
+          <p class="muted" style="font-size: 13px; margin-top: 8px;">Photo actuelle</p>
+        </div>
+        {% endif %}
+        
+        <input type="file" name="avatar" accept=".png,.jpg,.jpeg,.webp" />
+        <small class="muted" style="font-size: 13px; margin-top: 4px; display: block;">
+          PNG, JPG ou WEBP. Maximum 5 MB. Laissez vide pour conserver la photo actuelle.
+        </small>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 32px;">
+        <button type="submit" class="btn" style="flex: 1;">
+          💾 Enregistrer les modifications
+        </button>
+        <a href="{{ url_for('profile_view') }}" class="btn-ghost">
+          Annuler
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <div class="card" style="margin-top: 24px; background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);">
+    <h3 style="font-size: 16px; font-weight: 700; color: var(--error); margin-bottom: 8px;">⚠️ Zone de danger</h3>
+    <p class="muted" style="font-size: 14px;">
+      Vous ne pouvez pas changer votre adresse e-mail ou votre rôle après l'inscription. Si vous avez besoin de modifier ces informations, veuillez contacter un administrateur.
+    </p>
+  </div>
+</div>
+{% endblock %}

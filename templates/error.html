@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Erreur{% endblock %}
+
+{% block content %}
+<div class="container-narrow" style="padding-top: 80px;">
+  <div class="card" style="max-width: 520px; margin: 0 auto; text-align: center;">
+    <div style="width: 80px; height: 80px; margin: 0 auto 24px; border-radius: 50%; background: rgba(239, 68, 68, 0.1); display: flex; align-items: center; justify-content: center; font-size: 40px;">
+      ⚠️
+    </div>
+    
+    <h2 style="font-size: 24px; font-weight: 800; color: var(--error); margin-bottom: 12px;">
+      Une erreur est survenue
+    </h2>
+    
+    <p style="color: var(--text-secondary); margin-bottom: 32px; line-height: 1.6;">
+      {{ message }}
+    </p>
+    
+    <div style="display: flex; gap: 12px; justify-content: center;">
+      <a class="btn" href="{{ url_for('home') }}">
+        🏠 Retour à l'accueil
+      </a>
+      <a class="btn-ghost" href="{{ url_for('login') }}">
+        🔐 Se connecter
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

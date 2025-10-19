@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<div class="container-narrow" style="padding-top: 40px; padding-bottom: 60px;">
+  <div class="card" style="max-width: 720px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 32px;">
+      <div class="logo" style="margin: 0 auto 16px; width: 64px; height: 64px; font-size: 32px;">⚽</div>
+      <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 8px;">Créer un compte</h2>
+      <p class="muted">Rejoignez la plateforme d'analyse World Cup 2022</p>
+    </div>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+      <div class="card-header">
+        <h3 class="card-title">Informations de connexion</h3>
+      </div>
+
+      <div class="form-grid">
+        <div class="row">
+          <label>Adresse e-mail</label>
+          <input type="email" name="email" value="{{ email or '' }}" placeholder="votre@email.com" required autofocus />
+        </div>
+
+        <div class="row">
+          <label>Mot de passe</label>
+          <input type="password" name="password" placeholder="Minimum 8 caractères" required />
+        </div>
+      </div>
+
+      <div class="row">
+        <label>Type de compte</label>
+        <select name="role" required>
+          <option value="">-- Sélectionnez votre rôle --</option>
+          <option value="org" {{ 'selected' if role=='org' else '' }}>🌍 Organisations internationales (FIFA, UEFA, etc.)</option>
+          <option value="fed" {{ 'selected' if role=='fed' else '' }}>🏴 Fédérations nationales</option>
+          <option value="staff" {{ 'selected' if role=='staff' else '' }}>⚡ Sélectionneurs / Staff technique</option>
+        </select>
+      </div>
+
+      <div class="card-header" style="margin-top: 32px;">
+        <h3 class="card-title">Informations du profil</h3>
+        <p class="card-description">Ces informations sont optionnelles</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="row">
+          <label>Nom complet</label>
+          <input type="text" name="full_name" value="{{ full_name or '' }}" placeholder="Jean Dupont" />
+        </div>
+
+        <div class="row">
+          <label>Pays</label>
+          <input type="text" name="country" value="{{ country or '' }}" placeholder="France" />
+        </div>
+      </div>
+
+      <div class="row">
+        <label>Équipe favorite</label>
+        <input type="text" name="favorite_team" value="{{ favorite_team or '' }}" placeholder="France" />
+      </div>
+
+      <div class="row">
+        <label>Bio</label>
+        <textarea name="bio" rows="3" placeholder="Parlez-nous un peu de vous et de votre passion pour le football...">{{ bio or '' }}</textarea>
+      </div>
+
+      <div class="row">
+        <label>Photo de profil</label>
+        <input type="file" name="avatar" accept=".png,.jpg,.jpeg,.webp" />
+        <small class="muted" style="font-size: 13px; margin-top: 4px; display: block;">
+          PNG, JPG ou WEBP. Maximum 5 MB.
+        </small>
+      </div>
+
+      <button type="submit" class="btn" style="width: 100%; margin-top: 24px;">
+        Créer mon compte
+      </button>
+    </form>
+
+    <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center;">
+      <p class="muted" style="font-size: 14px;">
+        Vous avez déjà un compte ? 
+        <a href="{{ url_for('login') }}" style="font-weight: 600; text-decoration: none;">Se connecter</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

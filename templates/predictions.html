@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Prédictions – World Cup{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <span class="ribbon" style="background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border: none;">🔮 Prédictions</span>
+    <h1 class="page-title">Prédictions de matchs</h1>
+    <p class="page-subtitle">
+      Analyses prédictives et modélisations des résultats basées sur les données historiques et les performances en temps réel.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Rapport de prédictions</h2>
+      <p class="card-description">Analyses prédictives et probabilités des résultats</p>
+    </div>
+    <div id="reportContainer">
+      <iframe 
+        title="Predictions" 
+        width="100%" 
+        height="700" 
+        src="https://app.powerbi.com/reportEmbed?reportId=627240fa-7e9d-4341-b342-2a55176a67bd&autoAuth=true&embeddedDemo=true" 
+        frameborder="0" 
+        allowFullScreen="true">
+      </iframe>
+    </div>
+  </div>
+</div>
+{% endblock %}
