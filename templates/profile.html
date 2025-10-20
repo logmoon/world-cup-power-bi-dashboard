@@ -13,11 +13,11 @@
         
         <div class="chips">
           <span class="chip role {{ user.role }}">
-            {% if user.role == 'org' %}
+            {% if user.role == 'FIFA' %}
               🌍 Organisations internationales
-            {% elif user.role == 'fed' %}
+            {% elif user.role == 'Fed' %}
               🏴 Fédérations nationales
-            {% elif user.role == 'staff' %}
+            {% elif user.role == 'Staff' %}
               ⚡ Staff technique
             {% endif %}
           </span>
@@ -35,7 +35,7 @@
 
         <div class="actions">
           <a class="btn" href="{{ url_for('profile_edit') }}">✏️ Modifier le profil</a>
-          <a class="btn-ghost" href="{{ url_for('dashboard_' + user.role) }}">📊 Voir le dashboard</a>
+          <a class="btn-ghost" href="{{ url_for('dashboard') }}">📊 Voir le dashboard</a>
           <a class="btn-ghost" href="{{ url_for('predictions') }}">🔮 Prédictions</a>
         </div>
       </div>
@@ -56,11 +56,11 @@
           <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
             <span class="muted">Type de compte</span>
             <span style="font-weight: 600;">
-              {% if user.role == 'org' %}
+              {% if user.role == 'FIFA' %}
                 Organisations internationales
-              {% elif user.role == 'fed' %}
+              {% elif user.role == 'Fed' %}
                 Fédérations nationales
-              {% elif user.role == 'staff' %}
+              {% elif user.role == 'Staff' %}
                 Staff technique
               {% endif %}
             </span>
