@@ -22,6 +22,9 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_DIR
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024  # 5 MB
 
 db = SQLAlchemy(app)
+# Initialize database tables
+with app.app_context():
+    db.create_all()
 
 # ---------- Modèle ----------
 class User(db.Model):
@@ -205,6 +208,4 @@ def predictions():
 
 # ---------- Démarrage ----------
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True, port=5001)
