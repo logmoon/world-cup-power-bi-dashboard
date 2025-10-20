@@ -2,3 +2,4 @@ flask
 flask_sqlalchemy
 pillow
 gunicorn
+psycopg2-binary

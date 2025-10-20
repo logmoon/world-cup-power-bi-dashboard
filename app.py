@@ -8,17 +8,27 @@ import os, hashlib
 from PIL import Image
 
 # ---------- App & Config ----------
+# ---------- App & Config ----------
 app = Flask(__name__, static_folder="static", static_url_path="/static")
 app.secret_key = os.environ.get("SECRET_KEY", "change_this_secret")
 
 # Base directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-# Database setup with absolute path
-DB_DIR = os.path.join(BASE_DIR, "instance")
-os.makedirs(DB_DIR, exist_ok=True)
-DB_PATH = os.path.join(DB_DIR, "bi_users.db")
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
+# Database setup - PostgreSQL in production, SQLite locally
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    # Render PostgreSQL uses postgres:// but SQLAlchemy needs postgresql://
+    if DATABASE_URL.startswith('postgres://'):
+        DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+else:
+    # Local development with SQLite
+    DB_DIR = os.path.join(BASE_DIR, "instance")
+    os.makedirs(DB_DIR, exist_ok=True)
+    DB_PATH = os.path.join(DB_DIR, "bi_users.db")
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Uploads
@@ -30,9 +40,13 @@ app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024  # 5 MB
 
 db = SQLAlchemy(app)
 
-# Initialize database tables
-with app.app_context():
-    db.create_all()
+# Create tables before first request
+@app.before_request
+def create_tables():
+    try:
+        db.create_all()
+    except Exception as e:
+        app.logger.error(f"Failed to create tables: {e}")
 
 # ---------- Modèle ----------
 class User(db.Model):
