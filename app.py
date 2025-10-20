@@ -9,12 +9,19 @@ from PIL import Image
 
 # ---------- App & Config ----------
 app = Flask(__name__, static_folder="static", static_url_path="/static")
-app.secret_key = "change_this_secret"  # ⚠️ change-moi avant rendu
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///bi_users.db"
+app.secret_key = os.environ.get("SECRET_KEY", "change_this_secret")
+
+# Base directory
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+# Database setup with absolute path
+DB_DIR = os.path.join(BASE_DIR, "instance")
+os.makedirs(DB_DIR, exist_ok=True)
+DB_PATH = os.path.join(DB_DIR, "bi_users.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Uploads
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, "static", "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 ALLOWED_EXTS = {"png", "jpg", "jpeg", "webp"}
@@ -22,6 +29,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_DIR
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024  # 5 MB
 
 db = SQLAlchemy(app)
+
 # Initialize database tables
 with app.app_context():
     db.create_all()
