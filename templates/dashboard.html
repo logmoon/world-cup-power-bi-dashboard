@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% if session.role == 'FIFA' %}
+  {% set page_ribbon = "🌍 FIFA" %}
+  {% set page_title = "Analyse Mondiale FIFA" %}
+  {% set page_subtitle = "Vue d'ensemble globale des performances, comparaisons internationales et métriques stratégiques pour le football mondial." %}
+  {% set card_title = "Rapport FIFA Global" %}
+  {% set card_description = "Analyses détaillées des performances internationales" %}
+{% elif session.role == 'Fed' %}
+  {% set page_ribbon = "🏴 Fédérations nationales" %}
+  {% set page_title = "Analyse des Fédérations" %}
+  {% set page_subtitle = "Performances par fédération, comparaisons régionales et métriques stratégiques pour optimiser la performance nationale." %}
+  {% set card_title = "Rapport des fédérations" %}
+  {% set card_description = "Analyses détaillées par équipe nationale" %}
+{% elif session.role == 'Staff' %}
+  {% set page_ribbon = "👥 Staff Technique" %}
+  {% set page_title = "Analyse du Personnel" %}
+  {% set page_subtitle = "Performances individuelles, développement du staff et métriques opérationnelles pour l'excellence technique." %}
+  {% set card_title = "Rapport du Staff" %}
+  {% set card_description = "Analyses détaillées des performances du personnel" %}
+{% endif %}
+
+{% block title %}Dashboard – {{ page_ribbon|striptags }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <span class="ribbon fed">{{ page_ribbon }}</span>
+    <h1 class="page-title">{{ page_title }}</h1>
+    <p class="page-subtitle">{{ page_subtitle }}</p>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">{{ card_title }}</h2>
+      <p class="card-description">{{ card_description }}</p>
+    </div>
+    <div id="reportContainer" style="width: 100%; height: 80vh; overflow: hidden;">
+      <iframe 
+        title="Dashboard" 
+        width="100%" 
+        height="100%" 
+        src="https://app.powerbi.com/reportEmbed?reportId=a77f55b4-1b6a-4785-a0b9-a7a3c01f53bc&autoAuth=true&$filter=RoleSecurity/AllowedRole eq '{{ session.role }}'"
+        frameborder="0" 
+        allowFullScreen="true"
+        style="border: none;">
+      </iframe>
+    </div>
+  </div>
+</div>
+{% endblock %}

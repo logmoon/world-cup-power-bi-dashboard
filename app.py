@@ -28,7 +28,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.String(20), nullable=False)  # 'org' | 'fed' | 'staff'
+    role = db.Column(db.String(20), nullable=False)  # 'FIFA' | 'Fed' | 'Staff'
     # Profil
     full_name = db.Column(db.String(120))
     country = db.Column(db.String(80))
@@ -64,16 +64,6 @@ def login_required(view_func):
         return view_func(*args, **kwargs)
     return wrapper
 
-def redirect_by_role():
-    role = session.get("role")
-    if role == "org":
-        return redirect(url_for("dashboard_org"))
-    if role == "fed":
-        return redirect(url_for("dashboard_fed"))
-    if role == "staff":
-        return redirect(url_for("dashboard_staff"))
-    return render_template("error.html", message="Rôle inconnu")
-
 # rendre current_user dispo dans tous les templates
 @app.context_processor
 def inject_current_user():
@@ -90,7 +80,7 @@ def too_large(e):
 @app.route("/")
 def home():
     if "user_id" in session:
-        return redirect_by_role()
+        return redirect(url_for("dashboard"))
     return redirect(url_for("login"))
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -106,7 +96,7 @@ def signup():
         bio = request.form.get("bio")
         avatar_file = request.files.get("avatar")
 
-        if not email or not password or role not in ("org", "fed", "staff"):
+        if not email or not password or role not in ("FIFA", "Fed", "Staff"):
             return render_template("signup.html", error="Champs invalides.",
                                    email=email, role=role, full_name=full_name,
                                    country=country, favorite_team=favorite_team, bio=bio)
@@ -155,7 +145,7 @@ def login():
         if not user or not user.check_password(password):
             return render_template("login.html", error="Identifiants invalides.", email=email)
         session.update({"user_id": user.id, "email": user.email, "role": user.role})
-        return redirect_by_role()
+        return redirect(url_for("dashboard"))
     return render_template("login.html")
 
 @app.route("/logout")
@@ -201,26 +191,11 @@ def profile_edit():
     return render_template("profile_edit.html", user=user)
 
 # ---------- Dashboards par rôle ----------
-@app.route("/dashboard/org")
+@app.route("/dashboard")
 @login_required
-def dashboard_org():
-    if session.get("role") != "org":
-        return render_template("error.html", message="Accès refusé")
-    return render_template("dashboard_org.html")
-
-@app.route("/dashboard/fed")
-@login_required
-def dashboard_fed():
-    if session.get("role") != "fed":
-        return render_template("error.html", message="Accès refusé")
-    return render_template("dashboard_fed.html")
-
-@app.route("/dashboard/staff")
-@login_required
-def dashboard_staff():
-    if session.get("role") != "staff":
-        return render_template("error.html", message="Accès refusé")
-    return render_template("dashboard_staff.html")
+def dashboard():
+    print(session)
+    return render_template("dashboard.html", session=session)
 
 # ---------- Predictions ----------
 @app.route("/predictions")

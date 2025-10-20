@@ -35,9 +35,9 @@
         <label>Type de compte</label>
         <select name="role" required>
           <option value="">-- Sélectionnez votre rôle --</option>
-          <option value="org" {{ 'selected' if role=='org' else '' }}>🌍 Organisations internationales (FIFA, UEFA, etc.)</option>
-          <option value="fed" {{ 'selected' if role=='fed' else '' }}>🏴 Fédérations nationales</option>
-          <option value="staff" {{ 'selected' if role=='staff' else '' }}>⚡ Sélectionneurs / Staff technique</option>
+          <option value="FIFA" {{ 'selected' if role=='FIFA' else '' }}>🌍 Organisations internationales (FIFA, UEFA, etc.)</option>
+          <option value="Fed" {{ 'selected' if role=='Fed' else '' }}>🏴 Fédérations nationales</option>
+          <option value="Staff" {{ 'selected' if role=='Staff' else '' }}>⚡ Sélectionneurs / Staff technique</option>
         </select>
       </div>
 

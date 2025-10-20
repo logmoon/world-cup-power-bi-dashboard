@@ -24,7 +24,7 @@
 
       <nav class="nav">
         {% if session.email %}
-          <a class="btn-ghost" href="{{ url_for('dashboard_' + session.role) }}">Dashboard</a>
+          <a class="btn-ghost" href="{{ url_for('dashboard') }}">Dashboard</a>
           <a class="btn-ghost" href="{{ url_for('predictions') }}">Prédictions</a>
           <a class="btn-ghost" href="{{ url_for('profile_view') }}">Profil</a>
           <div class="nav-avatar">
